@@ -11,10 +11,5 @@
 
   Result: /output/ <br>
 </p>
-![selenium-docker](https://github.com/user-attachments/assets/cfb035ab-8ab0-422b-8177-20226ae5f164)
 
-
-
-
-
-
+<img src="https://github.com/sgnsabir/portfolio/blob/main/images/selenium-docker.png">
