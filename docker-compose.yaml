@@ -1,0 +1,74 @@
+version: '3'
+services:
+  hub:
+    image: selenium/hub:4.23.0
+    shm_size: '2g'
+    ports:
+    - 4444:4444
+  chrome:
+    image: selenium/node-chrome:127.0
+    depends_on:
+      - hub
+    deploy:
+      replicas: 1
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_SESSIONS=4
+  firefox:
+    image: selenium/node-firefox:128.0
+    shm_size: '2g'
+    depends_on:
+      - hub
+    deploy:
+      replicas: 1
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_SESSIONS=4
+  edge:
+    image: selenium/node-edge:127.0
+    shm_size: '2g'
+    depends_on:
+      - hub
+    deploy:
+      replicas: 0
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_SESSIONS=2
+
+  flight-reservation:
+    image: sgnsabir/selenium
+    depends_on:
+      - chrome
+    environment:
+    - BROWSER=chrome
+    - HUB_HOST=hub
+    - THREAD_COUNT=2
+    - TEST_SUITE=flight-reservation.xml
+    volumes:
+    - ./output/flight-reservation:/home/selenium-docker/test-output 
+
+  vendor-portal:
+    image: sgnsabir/selenium
+    depends_on:
+      - firefox
+    environment:
+    - BROWSER=firefox
+    - HUB_HOST=hub
+    - THREAD_COUNT=2
+    - TEST_SUITE=vendor-portal.xml
+    volumes:
+    - ./output/vendor-portal:/home/selenium-docker/test-output    
+   
+
+#command
+# sudo docker-compose up --scale chrome=1 --scale firefox=1 -d
+# docker pull bellsoft/liberica-openjdk-alpine:17.0.12
