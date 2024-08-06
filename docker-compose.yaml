@@ -5,6 +5,15 @@ services:
     shm_size: '2g'
     ports:
     - 4444:4444
+#  jenkins:
+#    image: jenkins/jenkins:lts
+#    user: root
+#    ports:
+#    - 8080:8080
+#    - 50000:50000
+#    volumes:
+#    - ./volumes/master:/var/jenkins_home
+
   chrome:
     image: selenium/node-chrome:127.0
     depends_on:
@@ -66,9 +75,11 @@ services:
     - THREAD_COUNT=2
     - TEST_SUITE=vendor-portal.xml
     volumes:
-    - ./output/vendor-portal:/home/selenium-docker/test-output    
-   
+    - ./output/vendor-portal:/home/selenium-docker/test-output
 
 #command
 # sudo docker-compose up --scale chrome=1 --scale firefox=1 -d
-# docker pull bellsoft/liberica-openjdk-alpine:17.0.12
+# To run Jenkins: uncomment jenkins  and then docker-compose up, go to volumes/node then execute following commands 
+# curl -s0 http://localhost:jnlpJars/agent.jar
+# java -jar agent.jar -url http://localhost:8080/ -secret 571e338139a31ec37e2f8cd3d72e1841cdc4d2ab2a520cea72fac8b18e579c40 -name NODE1 -workDir "/home/sabir/workspace/06-jenkins-ci-cd/01-jenkins/volumes/node"
+# go to localhost:8080 for jenkins
