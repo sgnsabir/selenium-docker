@@ -17,16 +17,21 @@ pipeline{
         }
 
         stage('Push Image'){
+			environment{
+				DOCKER_HUB = credentials('dockerhub-creds')
+			}
             steps{
-                sh "sudo docker push sgnsabir/selenium"
-                echo "https://github.com/sgnsabir/selenium-docker.git"
+				sh 'sudo docker login -u ${DOCKER_HUB_USR} -p ${DOCKER_HUB_PSW}'
+                sh 'sudo docker push sgnsabir/selenium:latest'
+                sh "sudo docker tag sgnsabir/selenium:latest sgnsabir/selenium:${env.BUILD_NUMBER}"
+                sh "sudo docker push sgnsabir/selenium:${env.BUILD_NUMBER}"
             }
         }
     }
 
     post {
         always {
-            echo "doing clean up"
+			sh "sudo docker logout"
         }
     }
 
