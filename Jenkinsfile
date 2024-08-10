@@ -12,7 +12,7 @@ pipeline{
 
         stage('Build Image'){
             steps{
-                sh 'docker build -t=sgnsabir/selenium .'
+                sh 'sudo docker build -t=sgnsabir/selenium .'
             }
         }
 
@@ -22,8 +22,8 @@ pipeline{
                 DOCKER_HUB = credentials('dockerhub-creds')
             }
             steps{
-                sh 'echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
-                sh 'docker push sgnsabir/selenium'
+                sh 'sudo echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
+                sh 'sudo docker push sgnsabir/selenium'
             }
         }
     }
