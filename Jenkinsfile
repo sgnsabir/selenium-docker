@@ -33,10 +33,4 @@ pipeline{
             sh 'docker logout'
         }
     }
-
-}
-
-// Jenkins
-// curl -s0 http://localhost:jnlpJars/agent.jar
-// java -jar agent.jar -url http://localhost:8080/ -secret 571e338139a31ec37e2f8cd3d72e1841cdc4d2ab2a520cea72fac8b18e579c40 -name NODE1 -workDir "/home/sabir/workspace/06-jenkins-ci-cd/01-jenkins/volumes/node"
 }
