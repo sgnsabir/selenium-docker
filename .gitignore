@@ -45,13 +45,3 @@
 **/mvnw
 **/mvnw.cmd
 **/node_modules/
-
-**/volumes/master
-**/volumes/node
-**/vol
-**/output
-Makefile
-
-
-
-.DS_Store
