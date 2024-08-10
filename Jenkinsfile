@@ -22,7 +22,7 @@ pipeline{
                 DOCKER_HUB = credentials('dockerhub-creds')
             }
             steps{
-                sh 'sudo echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
+                sh 'sudo echo ${DOCKER_HUB_PSW} | sudo docker login -u ${DOCKER_HUB_USR} --password-stdin'
                 sh 'sudo docker push sgnsabir/selenium'
             }
         }
