@@ -3,7 +3,6 @@ pipeline{
     agent any
 
     stages{
-
         stage('Build Jar'){
             steps{
                 sh 'mvn clean package -DskipTests'
@@ -12,18 +11,19 @@ pipeline{
 
         stage('Build Image'){
             steps{
-                sh 'sudo docker build -t=sgnsabir/selenium .'
+                sh 'docker build -t=sgnsabir/selenium:latest .'
             }
         }
 
         stage('Push Image'){
             environment{
-                // assuming you have stored the credentials with this name
                 DOCKER_HUB = credentials('dockerhub-creds')
             }
             steps{
-                sh 'sudo echo ${DOCKER_HUB_PSW} | sudo docker login -u ${DOCKER_HUB_USR} --password-stdin'
-                sh 'sudo docker push sgnsabir/selenium'
+                sh 'echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
+                sh 'docker push sgnsabir/selenium:latest'
+                sh "docker tag sgnsabir/selenium:latest sgnsabir/selenium:${env.BUILD_NUMBER}"
+                sh "docker push sgnsabir/selenium:${env.BUILD_NUMBER}"
             }
         }
     }
