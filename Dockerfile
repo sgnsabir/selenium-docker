@@ -10,11 +10,14 @@ WORKDIR /home/selenium-docker
 ADD target/docker-resources     ./
 ADD runner.sh                   runner.sh
 
+# Fix for windows
+RUN dos2unix runner.sh
+
 # Start the runner.sh
 ENTRYPOINT sh runner.sh
 
 # mvn clean package -DskipTests
-# sudo docker build -t=sgnsabir/selenium .
+# docker build -t=sgnsabir/selenium .
 # volume mapping: sudo docker run -it -v ${PWD}/result:/home/selenium-docker/test-output sgnsabir/selenium
 # java -Dselenium.grid.enabled=true -Dselenium.grid.hubHost=158.39.125.203 -cp 'libs/*' org.testng.TestNG test-suites/flight-reservation.xml
 
